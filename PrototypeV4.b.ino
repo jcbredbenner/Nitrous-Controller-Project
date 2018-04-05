@@ -473,7 +473,7 @@ void drawMenu(int stage) {
     myGLCD.print("on", 152, 93);
   }
 
-  else {
+  if (((stage == 1) && (buttonAct1 == false)) || ((stage == 2) && (buttonAct2 == false))) {
     myGLCD.setColor(255, 255, 255);
     myGLCD.fillRoundRect(130, 75, 190, 125);
     myGLCD.setColor(0, 0, 0);
