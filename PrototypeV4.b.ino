@@ -350,6 +350,11 @@ void menuButtons(int stage) {
         myGLCD.setColor(0, 0, 0);
         myGLCD.setBackColor(255, 255, 255);
         myGLCD.print("on", 152, 93);
+        myGLCD.setColor(255, 255, 255);
+        myGLCD.setBackColor(0, 0, 0);
+        myGLCD.drawRoundRect(130, 140, 190, 190);
+        myGLCD.setBackColor(0, 0, 0);
+        myGLCD.print("off", 145, 158);
         if (stage == 1) {
           buttonAct1 = true;         
         }
@@ -364,6 +369,11 @@ void menuButtons(int stage) {
         myGLCD.setColor(0, 0, 0);
         myGLCD.setBackColor(255, 255, 255);
         myGLCD.print("off", 152, 158);
+        myGLCD.setColor(255, 255, 255);
+        myGLCD.setBackColor(0, 0, 0);
+        myGLCD.drawRoundRect(130, 75, 190, 125);
+        myGLCD.setBackColor(0, 0, 0);
+        myGLCD.print("on", 148, 93);
         if (stage == 1) {
           buttonAct1 = false;         
         }
