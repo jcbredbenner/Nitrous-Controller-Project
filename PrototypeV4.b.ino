@@ -360,7 +360,7 @@ void menuButtons(int stage) {
 
       if ((x>=130) && (y>=140) && (x<=190) && (y<=190)) {     //button activation off
         myGLCD.setColor(255, 255, 255);
-        myGLCD.fillRoundRect(130, 75, 190, 125);
+        myGLCD.fillRoundRect(130, 140, 190, 190);
         myGLCD.setColor(0, 0, 0);
         myGLCD.setBackColor(255, 255, 255);
         myGLCD.print("off", 152, 158);
