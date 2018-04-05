@@ -256,7 +256,6 @@ void loop() {
         drawMenu(1);
         stage1 = false; //turns stages off
         stage2 = false;
-        
       }
       if ((x>=290) && (x<=320) && (y>=140) && (y<=180)) {
         currentPage='2';
@@ -267,7 +266,7 @@ void loop() {
       }
       
       //return to home screen button
-      if ((x>=100) && (x<=240) && (y>=200) && (y<=240)) {
+      if ((x>=110) && (x<=200) && (y>=200) && (y<=240)) {
         currentPage = 'h';
         myGLCD.clrScr();
         drawHomeScreen();
