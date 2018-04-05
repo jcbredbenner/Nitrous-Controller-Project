@@ -1,6 +1,6 @@
 
 
-//3 Stage Progressive Nitrous Controller
+// 2 Stage Progressive Nitrous Controller
 
 // Brenner Maull
 // need to create a main menu
