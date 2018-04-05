@@ -319,6 +319,7 @@ void drawFrame(int x1, int y1, int x2, int y2) { //makes border
 void menuButtons(int stage) {
       myGLCD.setColor(255,255,255);
       if  ((x>=35) && (y>=75) && (x<=95) && (y<=125)) {  //percent up
+        myGLCD.setBackColor(0,0,0);
         drawFrame(35, 75, 95, 125);
         if (stage == 1 && percent1 != 99) {
           percent1 ++;
@@ -331,6 +332,7 @@ void menuButtons(int stage) {
       }
       
       if ((x>=35) && (y>=175) && (x<=95) && (y<=225)) {      //percent down
+        myGLCD.setBackColor(0,0,0);
         drawFrame(35, 175, 95, 225);
         if (stage == 1 && percent1 != 10) {
           percent1 --;
@@ -371,6 +373,7 @@ void menuButtons(int stage) {
       }
      
       if  ((x>=225) && (y>=75) && (x<=285) && (y<=125)) {    //time up
+        myGLCD.setBackColor(0,0,0);
         drawFrame(225, 75, 285, 125);
         if (stage == 1 && int(time1*10) != 99) {
           time1=time1+.1;
@@ -383,6 +386,7 @@ void menuButtons(int stage) {
       }
       
       if ((x>=225) && (y>=175) && (x<=285) && (y<=225)) {     //time down
+        myGLCD.setBackColor(0,0,0);
         drawFrame(225, 175, 285, 225);
         if (stage == 1 && int(time1*10) != 1) {
           time1=time1-.1;
