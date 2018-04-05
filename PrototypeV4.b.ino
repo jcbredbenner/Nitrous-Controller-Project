@@ -449,12 +449,13 @@ void drawMenu(int stage) {
 
   //Button Activation
   myGLCD.setColor(255, 255, 255);
+  myGLCD.setBackColor(0, 0, 0);
   myGLCD.print("Button", 120,57);
   myGLCD.drawRoundRect(130, 75, 190, 125);
   myGLCD.drawRoundRect(130, 140, 190, 190);
   myGLCD.setBackColor(0, 0, 0);
-  myGLCD.print("on", 152, 93);
-  myGLCD.print("off", 152, 158);
+  myGLCD.print("on", 148, 93);
+  myGLCD.print("off", 145, 158);
 
   if ((stage == 1) && (buttonAct1 == true)) {
     myGLCD.setColor(255, 255, 255);
