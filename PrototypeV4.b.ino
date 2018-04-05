@@ -267,7 +267,7 @@ void loop() {
       }
       
       //return to home screen button
-      if ((x>=120) && (x<=200) && (y>=200) && (y<=240)) {
+      if ((x>=100) && (x<=240) && (y>=200) && (y<=240)) {
         currentPage = 'h';
         myGLCD.clrScr();
         drawHomeScreen();
