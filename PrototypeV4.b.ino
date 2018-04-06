@@ -107,10 +107,10 @@ void loop() {
   triggers(triggerpin1); //reads for stage 1 trigger
   triggers(triggerpin2); //reads for stage 2
 
-  if (analogRead(A8) >= 50) {  //reads for button being pressed
+  if (analogRead(A8) >= 500) {  //reads for button being pressed
     button = true; 
   }
-  if (analogRead(A8) < 50) {  //reads for button off
+  if (analogRead(A8) < 500) {  //reads for button off
     button = false; 
   }
   
@@ -421,12 +421,12 @@ void menuButtons(int stage) {
       }
 }
 void drawFillBlue(int x1, int y1, int x2, int y2, int center) { //makes choice armed 
-  myGLCD.setColor(0, 255, 0); // Sets red color
+  myGLCD.setColor(0, 0, 255); // Sets red color
   myGLCD.fillRoundRect (x1, y1, x2, y2); // Draws filled rounded rectangle
   myGLCD.setColor(255, 255, 255); // Sets color to white
   myGLCD.drawRoundRect (x1, y1, x2, y2); // Draws rounded rectangle without a fill, so the overall appearance of the button looks like it has a frame
   myGLCD.setFont(BigFont); // Sets the font to big
-  myGLCD.setBackColor(0, 255, 0); // Sets the background color of the area where the text will be printed to red, same as the button
+  myGLCD.setBackColor(0, 0, 255); // Sets the background color of the area where the text will be printed to red, same as the button
   myGLCD.print("Engaged", CENTER, center); // Prints the string
 }
   
@@ -592,7 +592,7 @@ void drawNitrousScreen() {
 }
 
 void triggers(int trigger){
-  if (analogRead(trigger) >= 50) {
+  if (analogRead(trigger) >= 500) {
     if (trigger == 1) {
       trigger1 = true;  
     }
@@ -600,7 +600,7 @@ void triggers(int trigger){
       trigger2 = true;  
     }
   }
-  if (analogRead(trigger) < 50) {
+  if (analogRead(trigger) < 500) {
     if (trigger == 1) {
       trigger1 = false;  
     }
