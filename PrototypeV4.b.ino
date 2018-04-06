@@ -60,7 +60,7 @@ bool buttonAct2 = false;
 
 bool button = false; //outside activation button
 
-bool raceGas = true; //safety mechanism to only allow nitrous with race gas
+bool raceGas = false; //safety mechanism to only allow nitrous with race gas
 
 char currentPage, selectedUnit;
 
@@ -114,8 +114,8 @@ void loop() {
   
 
     
-  if (stage1 == true && trigger1 == true && raceGas == true){                          //Stage 1 Activation                //EDIT
-      if (buttonAct1 == true && button == true || buttonAct1 == false){
+  if ((stage1 == true) && (trigger1 == true) && (raceGas == true)){                          //Stage 1 Activation                //EDIT
+      if (((buttonAct1 == true) && (button == true)) || (buttonAct1 == false)){
         int startduty1 = (percent1)/100*255; //percent * 255 = startduty 
         int deltaT1 = (time1)*1000; // Time interval for nitrous to go from startduty -> endduty (ms)
         int cycleDelay1 = deltaT1 / (finalduty - startduty1); //cycle calculation
@@ -127,20 +127,20 @@ void loop() {
         }
       }
   }
-  if (stage1 == false || trigger1 == false || raceGas == false || buttonAct1 == true && button == false){
+  if ((stage1 == false) || (trigger1 == false) || (raceGas == false) || ((buttonAct1) == true && (button == false))){
       pwmWrite(pwmpin1, 0);
       digitalWrite(A4, LOW);
       addDuty1 = 0;
   }
-  if (stage2 == true && trigger2 == true && raceGas == true){                            //Stage 2 Activation
-    if (buttonAct2 == true && button == true || buttonAct2 == false){
+  if ((stage2 == true) && (trigger2 == true) && (raceGas == true)){                            //Stage 2 Activation
+    if (((buttonAct2 == true) && (button == true)) || (buttonAct2 == false)){
       int deltaT2 = (time2)*10;
       byte array2[] = {percent2, deltaT2};
       Serial1.write(array2, 2);
       digitalWrite(A5, HIGH);
     }  
   }
-  if (stage2 == false || trigger2 == false || raceGas == false  || buttonAct2 == true && button == false){
+  if ((stage2 == false) || (trigger2 == false) || (raceGas == false)  || ((buttonAct2 == true) && (button == false))){
       byte off2[] = {0,0};
       Serial1.write(off2, 2);
       digitalWrite(A5, LOW);
@@ -349,12 +349,13 @@ void menuButtons(int stage) {
         myGLCD.fillRoundRect(130, 75, 190, 125);
         myGLCD.setColor(0, 0, 0);
         myGLCD.setBackColor(255, 255, 255);
-        myGLCD.print("on", 152, 93);
+        myGLCD.print("on", 146, 93);
+        myGLCD.setColor(0, 0, 0);
+        myGLCD.fillRoundRect(130, 140, 190, 190);
         myGLCD.setColor(255, 255, 255);
-        myGLCD.setBackColor(0, 0, 0);
         myGLCD.drawRoundRect(130, 140, 190, 190);
         myGLCD.setBackColor(0, 0, 0);
-        myGLCD.print("off", 145, 158);
+        myGLCD.print("off", 139, 158);
         if (stage == 1) {
           buttonAct1 = true;         
         }
@@ -368,12 +369,13 @@ void menuButtons(int stage) {
         myGLCD.fillRoundRect(130, 140, 190, 190);
         myGLCD.setColor(0, 0, 0);
         myGLCD.setBackColor(255, 255, 255);
-        myGLCD.print("off", 152, 158);
+        myGLCD.print("off", 139, 158);
+        myGLCD.setColor(0, 0, 0);
+        myGLCD.fillRoundRect(130, 75, 190, 125);
         myGLCD.setColor(255, 255, 255);
-        myGLCD.setBackColor(0, 0, 0);
         myGLCD.drawRoundRect(130, 75, 190, 125);
         myGLCD.setBackColor(0, 0, 0);
-        myGLCD.print("on", 148, 93);
+        myGLCD.print("on", 146, 93);
         if (stage == 1) {
           buttonAct1 = false;         
         }
@@ -451,7 +453,9 @@ void drawMenu(int stage) {
 
   //Start Percent
   myGLCD.setColor(255, 255, 255);
-  myGLCD.print("Start%", 23, 57);
+  myGLCD.setFont(SmallFont);
+  myGLCD.print("Start%", 42, 57);
+  myGLCD.setFont(BigFont);
   myGLCD.fillRect(35, 75, 95, 125);
   myGLCD.fillRect(35, 175, 95, 225);
   myGLCD.drawRect(35, 125, 95, 175);
@@ -464,42 +468,42 @@ void drawMenu(int stage) {
   //Button Activation
   myGLCD.setColor(255, 255, 255);
   myGLCD.setBackColor(0, 0, 0);
-  myGLCD.print("Button", 120,57);
+  myGLCD.setFont(SmallFont);
+  myGLCD.print("Button", 138, 57);
+  myGLCD.setFont(BigFont);
+  myGLCD.setColor(0, 0, 0);
+  myGLCD.fillRoundRect(130, 75, 190, 125);
+  myGLCD.fillRoundRect(130, 140, 190, 190);
+  myGLCD.setColor(255, 255, 255);
   myGLCD.drawRoundRect(130, 75, 190, 125);
   myGLCD.drawRoundRect(130, 140, 190, 190);
   myGLCD.setBackColor(0, 0, 0);
-  myGLCD.print("on", 148, 93);
-  myGLCD.print("off", 145, 158);
+  myGLCD.print("on", 146, 93);
+  myGLCD.print("off", 139, 158);
 
-  if ((stage == 1) && (buttonAct1 == true)) {
+  if (((stage == 1) && (buttonAct1 == true)) || ((stage == 2) && (buttonAct2 == true))) {
     myGLCD.setColor(255, 255, 255);
     myGLCD.fillRoundRect(130, 75, 190, 125);
     myGLCD.setColor(0, 0, 0);
     myGLCD.setBackColor(255, 255, 255);
-    myGLCD.print("on", 152, 93);
-  }
-
-  if ((stage == 2) && (buttonAct2 == true)) {
-    myGLCD.setColor(255, 255, 255);
-    myGLCD.fillRoundRect(130, 75, 190, 125);
-    myGLCD.setColor(0, 0, 0);
-    myGLCD.setBackColor(255, 255, 255);
-    myGLCD.print("on", 152, 93);
+    myGLCD.print("on", 146, 93);
   }
 
   if (((stage == 1) && (buttonAct1 == false)) || ((stage == 2) && (buttonAct2 == false))) {
     myGLCD.setColor(255, 255, 255);
-    myGLCD.fillRoundRect(130, 75, 190, 125);
+    myGLCD.fillRoundRect(130, 140, 190, 190);
     myGLCD.setColor(0, 0, 0);
     myGLCD.setBackColor(255, 255, 255);
-    myGLCD.print("off", 152, 158);
+    myGLCD.print("off", 139, 158);
   }  
   
 
   //Time
   myGLCD.setColor(255, 255, 255);
   myGLCD.setBackColor(0,0,0);
-  myGLCD.print("Time", 222, 57);
+  myGLCD.setFont(SmallFont);
+  myGLCD.print("Time", 242, 57);
+  myGLCD.setFont(BigFont);
   myGLCD.fillRect(225, 75, 285, 125);
   myGLCD.fillRect(225, 175, 285, 225);
   myGLCD.drawRect(225, 125, 285, 175);
