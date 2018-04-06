@@ -127,6 +127,7 @@ void loop() {
         if(startduty1 + addDuty1 != finalduty){ //ramps duty
           addDuty1 ++;
         }
+        drawFillBlue(35, 90, 285, 130, 102);
       }
   }
   if ((stage1 == false) || (trigger1 == false) || (raceGas == false) || ((buttonAct1) == true && (button == false))){
@@ -140,6 +141,7 @@ void loop() {
       byte array2[] = {percent2, deltaT2};
       Serial1.write(array2, 2);
       digitalWrite(A5, HIGH);
+      drawFillBlue(35, 140, 285, 180, 152);
     }  
   }
   if ((stage2 == false) || (trigger2 == false) || (raceGas == false)  || ((buttonAct2 == true) && (button == false))){
@@ -417,7 +419,17 @@ void menuButtons(int stage) {
           myGLCD.printNumF(time2, 1, 232, 142);
         }        
       }
-}  
+}
+void drawFillBlue(int x1, int y1, int x2, int y2, int center) { //makes choice armed 
+  myGLCD.setColor(0, 255, 0); // Sets red color
+  myGLCD.fillRoundRect (x1, y1, x2, y2); // Draws filled rounded rectangle
+  myGLCD.setColor(255, 255, 255); // Sets color to white
+  myGLCD.drawRoundRect (x1, y1, x2, y2); // Draws rounded rectangle without a fill, so the overall appearance of the button looks like it has a frame
+  myGLCD.setFont(BigFont); // Sets the font to big
+  myGLCD.setBackColor(0, 255, 0); // Sets the background color of the area where the text will be printed to red, same as the button
+  myGLCD.print("Engaged", CENTER, center); // Prints the string
+}
+  
 void drawFillRed(int x1, int y1, int x2, int y2, int center) { //makes choice armed 
   myGLCD.setColor(255, 0, 0); // Sets red color
   myGLCD.fillRoundRect (x1, y1, x2, y2); // Draws filled rounded rectangle
