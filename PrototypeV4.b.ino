@@ -45,6 +45,8 @@ int percent2 = 25;
 
 int finalduty = 255;
 
+byte reset[] = {102, 0}; //allows uno driver to be reset
+
 int n = 0;
 
 bool trigger1 = false; //Nitrous on from outside source (rpm switch)
@@ -243,11 +245,13 @@ void loop() {
       if ((x>=0) && (x<=30) && (y>=90) && (y<=130)) {
         drawFillGreen(35, 90, 285, 130, 102, 1);
         stage1 = false;
+        addDuty1 = 0;
       }
       //Stage 2 cancel
       if ((x>=0) && (x<=30) && (y>=140) && (y<=180)) {
         drawFillGreen(35, 140, 285, 180, 152, 2);
         stage2 = false;
+        Serial1.write(reset, 2);
       }
       
       //settings
@@ -256,12 +260,16 @@ void loop() {
         drawMenu(1);
         stage1 = false; //turns stages off
         stage2 = false;
+        addDuty1 = 0;
+        Serial1.write(reset, 2);
       }
       if ((x>=290) && (x<=320) && (y>=140) && (y<=180)) {
         currentPage='2';
         drawMenu(2);
         stage1 = false;
         stage2 = false;
+        addDuty1 = 0;
+        Serial1.write(reset, 2);
         
       }
       
