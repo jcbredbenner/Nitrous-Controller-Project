@@ -1,4 +1,4 @@
-
+Brenner and Josh
 
 // 2 Stage Progressive Nitrous Controller
 
