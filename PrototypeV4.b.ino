@@ -209,6 +209,7 @@ void loop() {
         // Activation sequence
         if ((x>=120) && (x<=210) && (y>=45) && (y<=145)) {
           raceGas = true; // sets race gas to true
+          digitalWrite(A9,HIGH);
           myGLCD.clrScr();
           // Activation message
           myGLCD.setBackColor(0,0,0); // Sets the background color of the area where the text will be printed to black
@@ -230,6 +231,7 @@ void loop() {
         // deactivation sequence
         if ((x>=0) && (x<=40) && (y>=90) && (y<=130)) {
           raceGas = false; // sets race gas to false
+          digitalWrite(A9,LOW);
           myGLCD.clrScr();
           // Deactivation message
           myGLCD.setBackColor(0,0,0); // Sets the background color of the area where the text will be printed to black
