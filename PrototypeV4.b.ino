@@ -170,7 +170,27 @@ void loop() {
         currentPage = 'f';
         myGLCD.clrScr();
         drawFuelScreen();  // draws Fuel Screen
-             
+      }
+      
+      //Ignition
+      if ((x>=190) && (x<=310) && (y>=80) && (y<=200)) {
+        // Button - Green Ignition
+        myGLCD.setColor(0, 200, 0);
+        myGLCD.fillCircle (250, 140, 60);
+        myGLCD.setColor(255, 255, 255);
+        myGLCD.drawCircle (250, 140, 60);
+        myGLCD.setFont(BigFont);
+        myGLCD.setBackColor(200, 0, 0);
+        myGLCD.print("Start", 212, 130);
+        delay(3000);
+        // Button - Red Ignition
+        myGLCD.setColor(200, 0, 0);
+        myGLCD.fillCircle (250, 140, 60);
+        myGLCD.setColor(255, 255, 255);
+        myGLCD.drawCircle (250, 140, 60);
+        myGLCD.setFont(BigFont);
+        myGLCD.setBackColor(200, 0, 0);
+        myGLCD.print("Start", 212, 130); 
         }
       }
     }
