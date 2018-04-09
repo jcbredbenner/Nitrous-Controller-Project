@@ -180,7 +180,7 @@ void loop() {
         myGLCD.setColor(255, 255, 255);
         myGLCD.drawCircle (250, 140, 60);
         myGLCD.setFont(BigFont);
-        myGLCD.setBackColor(200, 0, 0);
+        myGLCD.setBackColor(0, 200, 0);
         myGLCD.print("Start", 212, 130);
         digitalWrite(A10,HIGH);
         delay(3000);
