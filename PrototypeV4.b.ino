@@ -182,9 +182,9 @@ void loop() {
         myGLCD.setFont(BigFont);
         myGLCD.setBackColor(0, 200, 0);
         myGLCD.print("Start", 212, 130);
-        digitalWrite(A10,HIGH);
+        analogWrite(A10,255);
         delay(3000);
-        digitalWrite(A10,LOW);
+        analogWrite(A10,0);
         // Button - Red Ignition
         myGLCD.setColor(200, 0, 0);
         myGLCD.fillCircle (250, 140, 60);
