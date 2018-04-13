@@ -134,6 +134,7 @@ void loop() {
       pwmWrite(pwmpin1, 0);
       digitalWrite(A4, LOW);
       addDuty1 = 0;
+      drawFillRed(35, 90, 285, 130, 102);
   }
   if ((stage2 == true) && (trigger2 == true) && (raceGas == true)){                            //Stage 2 Activation
     if (((buttonAct2 == true) && (button == true)) || (buttonAct2 == false)){
@@ -148,6 +149,7 @@ void loop() {
       byte off2[] = {0,0};
       Serial1.write(off2, 2);
       digitalWrite(A5, LOW);
+      drawFillRed(35, 140, 285, 180, 152);
       
   }
   
