@@ -66,10 +66,10 @@ void setup() {
   pinMode(A4,OUTPUT); //first stage retard
   pinMode(A5,OUTPUT); //second
 
-  pinMode(11,INPUT); //first stage trigger
-  pinMode(12,INPUT); //second stage
+  pinMode(11,INPUT_PULLUP); //first stage trigger
+  pinMode(12,INPUT_PULLUP); //second stage
 
-  pinMode(A8,INPUT); //activation button
+  pinMode(A8,INPUT_PULLUP); //activation button
 
   pinMode(A9,OUTPUT); //fuel pump and fuel valve
 
@@ -587,24 +587,24 @@ void drawNitrousScreen() {
 void triggers(){
 
   
-  if (digitalRead(11) == HIGH) {   //reads for stage 1 activstion
+  if (digitalRead(11) == LOW) {   //reads for stage 1 activstion  (inverted due to pullup)
     trigger1 = true;  
   }  
-  if (digitalRead(11) == LOW) {    
+  if (digitalRead(11) == HIGH) {    
     trigger1 = false;  
   }
 
-  if (digitalRead(12) == HIGH) {   //reads for stage 2 activation
+  if (digitalRead(12) == LOW) {   //reads for stage 2 activation  (inverted due to pullup)
     trigger2 = true;  
   }  
-  if (digitalRead(12) == LOW) {    
+  if (digitalRead(12) == HIGH) {    
     trigger2 = false;  
   }  
   
-  if (analogRead(A8) > 980) {  //reads for button being pressed
+  if (digitalRead(A8) == LOW) {  //reads for button being pressed  (inverted due to pullup)
     button = true; 
   }
-  if (analogRead(A8) < 980) {  //reads for button off
+  if (digitalRead(A8) == HIGH) {  //reads for button off
     button = false; 
   }
 }
