@@ -33,9 +33,6 @@ int a = 1;
 boolean stage1 = false; //Determines if stages are armed
 boolean stage2 = false;
 
-int32_t frequency = 14;
-
-int pwmpin1 = 11;
 
 float time1 = 1.0;
 float time2 = 1.0;
@@ -43,19 +40,12 @@ float time2 = 1.0;
 int percent1 = 25;
 int percent2 = 25;
 
-int finalduty = 255;
-
 byte reset[] = {102, 0}; //allows uno driver to be reset
 
 int n = 0;
 
 bool trigger1 = false; //Nitrous on from outside source (rpm switch)
 bool trigger2 = false;
-
-int triggerpin1 = 1; //used in triggers program
-int triggerpin2 = 2;
-
-int addDuty1 = 0; //serves as step value for progression
 
 bool buttonAct1 = false; //determines if stage comes on due to button activation or auto
 bool buttonAct2 = false;
@@ -72,27 +62,19 @@ void setup() {
   myGLCD.clrScr();
   myTouch.InitTouch();
   myTouch.setPrecision(PREC_MEDIUM);
-  
-  //allows timers to be altered
-  Timer1_Initialize(); //pins 11, 12
-  Timer2_Initialize(); //pins 9, 10
- 
-  //sets the frequency for the specified timer
-  Timer1_SetFrequency(frequency);
-  Timer2_SetFrequency(frequency);
 
   pinMode(A4,OUTPUT); //first stage retard
   pinMode(A5,OUTPUT); //second
 
-  pinMode(A1,INPUT); //first stage trigger
-  pinMode(A2,INPUT); //second stage
+  pinMode(11,INPUT); //first stage trigger
+  pinMode(12,INPUT); //second stage
 
   pinMode(A8,INPUT); //activation button
 
   pinMode(A9,OUTPUT); //fuel pump and fuel valve
 
   Serial1.begin(9600); //establishes communication with stage 2 driver
-  
+  Serial2.begin(9600);
 
 // main
 
@@ -104,52 +86,37 @@ void setup() {
 
 void loop() {
   //Nitrous Functions
-  triggers(triggerpin1); //reads for stage 1 trigger
-  triggers(triggerpin2); //reads for stage 2
-
-  if (analogRead(A8) >= 500) {  //reads for button being pressed
-    button = true; 
-  }
-  if (analogRead(A8) < 500) {  //reads for button off
-    button = false; 
-  }
-  
-
+  triggers(); //reads for outside triggers
     
   if ((stage1 == true) && (trigger1 == true) && (raceGas == true)){                          //Stage 1 Activation                //EDIT
       if (((buttonAct1 == true) && (button == true)) || (buttonAct1 == false)){
-        int startduty1 = (percent1)/100*255; //percent * 255 = startduty 
-        int deltaT1 = (time1)*1000; // Time interval for nitrous to go from startduty -> endduty (ms)
-        int cycleDelay1 = deltaT1 / (finalduty - startduty1); //cycle calculation
+        int deltaT1 = (time1)*10;
+        byte array1[] = {percent1, deltaT1};
         digitalWrite(A4, HIGH);
-        pwmWrite(pwmpin1, startduty1 + addDuty1); //sends pulse to 40amp ssr
-        delay (cycleDelay1); //One calulation per second.
-        if(startduty1 + addDuty1 != finalduty){ //ramps duty
-          addDuty1 ++;
-        }
+        Serial1.write(array1, 2);
         drawFillBlue(35, 90, 285, 130, 102);
       }
   }
   if ((stage1 == false) || (trigger1 == false) || (raceGas == false) || ((buttonAct1) == true && (button == false))){
-      pwmWrite(pwmpin1, 0);
+      byte off1[] = {0,0};
+      Serial1.write(off1, 2);
       digitalWrite(A4, LOW);
-      addDuty1 = 0;
-      drawFillRed(35, 90, 285, 130, 102);
+      
   }
   if ((stage2 == true) && (trigger2 == true) && (raceGas == true)){                            //Stage 2 Activation
     if (((buttonAct2 == true) && (button == true)) || (buttonAct2 == false)){
       int deltaT2 = (time2)*10;
       byte array2[] = {percent2, deltaT2};
-      Serial1.write(array2, 2);
       digitalWrite(A5, HIGH);
+      Serial2.write(array2, 2);     
       drawFillBlue(35, 140, 285, 180, 152);
     }  
   }
   if ((stage2 == false) || (trigger2 == false) || (raceGas == false)  || ((buttonAct2 == true) && (button == false))){
       byte off2[] = {0,0};
-      Serial1.write(off2, 2);
+      Serial2.write(off2, 2);
       digitalWrite(A5, LOW);
-      drawFillRed(35, 140, 285, 180, 152);
+      
       
   }
   
@@ -273,13 +240,13 @@ void loop() {
       if ((x>=0) && (x<=30) && (y>=90) && (y<=130)) {
         drawFillGreen(35, 90, 285, 130, 102, 1);
         stage1 = false;
-        addDuty1 = 0;
+        Serial1.write(reset, 2);
       }
       //Stage 2 cancel
       if ((x>=0) && (x<=30) && (y>=140) && (y<=180)) {
         drawFillGreen(35, 140, 285, 180, 152, 2);
         stage2 = false;
-        Serial1.write(reset, 2);
+        Serial2.write(reset, 2);
       }
       
       //settings
@@ -288,16 +255,16 @@ void loop() {
         drawMenu(1);
         stage1 = false; //turns stages off
         stage2 = false;
-        addDuty1 = 0;
         Serial1.write(reset, 2);
+        Serial2.write(reset, 2);
       }
       if ((x>=290) && (x<=320) && (y>=140) && (y<=180)) {
         currentPage='2';
         drawMenu(2);
         stage1 = false;
         stage2 = false;
-        addDuty1 = 0;
         Serial1.write(reset, 2);
+        Serial2.write(reset, 2);
         
       }
       
@@ -617,22 +584,28 @@ void drawNitrousScreen() {
   myGLCD.print("Home", CENTER, 220);
 }
 
-void triggers(int trigger){
-  if (analogRead(trigger) >= 500) {
-    if (trigger == 1) {
-      trigger1 = true;  
-    }
-     if (trigger == 2) {
-      trigger2 = true;  
-    }
+void triggers(){
+
+  
+  if (digitalRead(11) == HIGH) {   //reads for stage 1 activstion
+    trigger1 = true;  
+  }  
+  if (digitalRead(11) == LOW) {    
+    trigger1 = false;  
   }
-  if (analogRead(trigger) < 500) {
-    if (trigger == 1) {
-      trigger1 = false;  
-    }
-     if (trigger == 2) {
-      trigger2 = false;  
-    }
+
+  if (digitalRead(12) == HIGH) {   //reads for stage 2 activation
+    trigger2 = true;  
+  }  
+  if (digitalRead(12) == LOW) {    
+    trigger2 = false;  
+  }  
+  
+  if (analogRead(A8) > 980) {  //reads for button being pressed
+    button = true; 
+  }
+  if (analogRead(A8) < 980) {  //reads for button off
+    button = false; 
   }
 }
 
