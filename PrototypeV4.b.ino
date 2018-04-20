@@ -611,7 +611,15 @@ void triggers(){
 
 
 //BRENNER WORK START
-  
+
+void drawHomeButton() {
+  // Button - Home
+  myGLCD.setColor(255,255,255);
+  myGLCD.setFont(BigFont);
+  myGLCD.print("Home", CENTER, 220);
+}
+
+
 void welcomeMessage() {
   myGLCD.clrScr();
   myGLCD.setBackColor(0,0,0); // Sets the background color of the area where the text will be printed to black
@@ -672,10 +680,8 @@ void drawFuelScreen() {
   myGLCD.drawLine(0,32,319,32); // Draws the red line
   myGLCD.setColor(255, 255, 255); // Sets color to white
 
-  // Button - Home
-  myGLCD.setColor(255,255,255);
-  myGLCD.setFont(BigFont);
-  myGLCD.print("Home", CENTER, 220);
+  //Button - Home
+  drawHomeButton();
 
   // Button - Race fuel activation button
   myGLCD.setColor(200, 0, 0);
