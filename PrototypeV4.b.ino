@@ -1,14 +1,6 @@
 //Brenner Maull and Josh Bredbenner
-
-// 2 Stage Progressive Nitrous Controller
-
-// Brenner
-// need to create a main menu
-// ignition
-// gas pump switch
-// if not on race gas, don't engage nitrous
-// home - red circle button for ignition, two rectangle buttons for fuel and nitrous
-// 320 x 240
+//AP CSP Create Task
+// 2 Stage Progressive Nitrous Controller Main Code
  
 /*  This program uses the UTFT and URTouch libraries
  *  made by Henning Karlsen. 
@@ -115,15 +107,11 @@ void loop() {
   if ((stage2 == false) || (trigger2 == false) || (raceGas == false)  || ((buttonAct2 == true) && (button == false))){
       byte off2[] = {0,0};
       Serial2.write(off2, 2);
-      digitalWrite(A5, LOW);
-      
-      
+      digitalWrite(A5, LOW);      
   }
-  
-
-//BRENNER WORK START
-                                                                                                              //hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-  if (currentPage == 'h') {
+ 
+  //Start of graphics code                                                                                                        
+  if (currentPage == 'h') {    //startup screen
     if (myTouch.dataAvailable()) {
       myTouch.read();
       x=myTouch.getX(); // X coordinate where the screen has been pressed
@@ -214,8 +202,6 @@ void loop() {
       }
     }
   }
-  
- //BRENNER WORK END
   
   //Nitrous Screen
   if (currentPage == '0') {
@@ -413,6 +399,8 @@ void menuButtons(int stage) {
         }        
       }
 }
+
+//functions
 void drawFillBlue(int x1, int y1, int x2, int y2, int center) { //makes choice armed 
   myGLCD.setColor(0, 0, 255); // Sets red color
   myGLCD.fillRoundRect (x1, y1, x2, y2); // Draws filled rounded rectangle
@@ -609,16 +597,12 @@ void triggers(){
   }
 }
 
-
-//BRENNER WORK START
-
 void drawHomeButton() {
   // Button - Home
   myGLCD.setColor(255,255,255);
   myGLCD.setFont(BigFont);
   myGLCD.print("Home", CENTER, 220);
 }
-
 
 void welcomeMessage() {
   myGLCD.clrScr();
