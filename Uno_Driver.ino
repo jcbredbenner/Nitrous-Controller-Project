@@ -1,5 +1,8 @@
-#include <PWM.h>
+//Brenner Maull and Josh Bredbenner
+//AP CSP Exam Create Task
+//Nitrous Controller Solenoid Driver
 
+#include <PWM.h>
 
 byte sentBytes[]= {0, 0};
 int percent = 0;
@@ -10,7 +13,7 @@ int pwmpin = 9;
 int32_t frequency = 14;
 
 void setup() {
-  // put your setup code here, to run once:
+  //serial and frequency
   Serial.begin(9600);
 
   Timer1_Initialize(); //pins 9 and 10
@@ -18,12 +21,12 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // read and write
   if (Serial.available() > 0) {
     Serial.readBytes(sentBytes, 2);
   }
   
-  if ((sentBytes[0]>0) && (sentBytes[0]<101) && (sentBytes[1]>0)) {
+  if ((sentBytes[0]>0) && (sentBytes[0]<101) && (sentBytes[1]>0)) { //nitrous activation
     percent = sentBytes[0];
     rampTime = sentBytes[1];
     int deltaT = rampTime*100;
@@ -36,12 +39,12 @@ void loop() {
     }
   }   
   
-  if (sentBytes[0] == 0 && sentBytes[1] == 0) {
+  if (sentBytes[0] == 0 && sentBytes[1] == 0) { //deactivation
     pwmWrite(pwmpin, 0);
     addDuty =0;
   }
 
-  if (sentBytes[0]>101) {
+  if (sentBytes[0]>101) { //reset
     addDuty = 0;
   }
 }
