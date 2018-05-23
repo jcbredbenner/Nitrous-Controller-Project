@@ -84,7 +84,7 @@ void loop() {
       if (((buttonAct1 == true) && (button == true)) || (buttonAct1 == false)){
         int deltaT1 = (time1)*10;
         byte array1[] = {percent1, deltaT1};
-        digitalWrite(A4, HIGH);
+        //digitalWrite(A4, HIGH);
         Serial1.write(array1, 2);
         drawFillBlue(35, 90, 285, 130, 102);
       }
@@ -92,14 +92,14 @@ void loop() {
   if ((stage1 == false) || (trigger1 == false) || (raceGas == false) || ((buttonAct1) == true && (button == false))){
       byte off1[] = {0,0};
       Serial1.write(off1, 2);
-      digitalWrite(A4, LOW);
+      //digitalWrite(A4, LOW);
       
   }
   if ((stage2 == true) && (trigger2 == true) && (raceGas == true)){                            //Stage 2 Activation
     if (((buttonAct2 == true) && (button == true)) || (buttonAct2 == false)){
       int deltaT2 = (time2)*10;
       byte array2[] = {percent2, deltaT2};
-      digitalWrite(A5, HIGH);
+      //digitalWrite(A5, HIGH);
       Serial2.write(array2, 2);     
       drawFillBlue(35, 140, 285, 180, 152);
     }  
@@ -107,7 +107,7 @@ void loop() {
   if ((stage2 == false) || (trigger2 == false) || (raceGas == false)  || ((buttonAct2 == true) && (button == false))){
       byte off2[] = {0,0};
       Serial2.write(off2, 2);
-      digitalWrite(A5, LOW);      
+      //digitalWrite(A5, LOW);      
   }
  
   //Start of graphics code                                                                                                        
