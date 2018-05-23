@@ -32,6 +32,7 @@ void loop() {
     int deltaT = rampTime*100;
     int startduty = (percent)/100*255; //percent * 255 = startduty
     int cycleDelay = deltaT / (finalduty - startduty); //cycle calculation
+    digitalWrite(2, HIGH);
     pwmWrite(pwmpin, startduty + addDuty); //sends pulse to 40a ssr
     delay (cycleDelay); //One calulation per second.
     if(startduty + addDuty != finalduty){ //ramps duty
@@ -41,6 +42,7 @@ void loop() {
   
   if (sentBytes[0] == 0 && sentBytes[1] == 0) { //deactivation
     pwmWrite(pwmpin, 0);
+    digitalWrite(2, LOW);
     addDuty =0;
   }
 
